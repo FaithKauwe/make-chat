@@ -4,6 +4,8 @@ $(document).ready(()=>{
 
   //Keep track of the current user
   let currentUser;
+  // Get the online users from the server
+  socket.emit('get online users');
 
   $('#create-user-btn').click((e)=>{
     e.preventDefault();
@@ -35,10 +37,7 @@ $(document).ready(()=>{
   //socket listeners
   socket.on('new user', (username) => {
     console.log(`${username} has joined the chat`);
-    // Only add the user if it's not the current user (avoid duplicates)
-    if(username !== currentUser) {
-      $('.users-online').append(`<div class="user-online">${username}</div>`);
-    }
+    $('.users-online').append(`<div class="user-online">${username}</div>`);
   })
 
   //Output the new message
@@ -49,6 +48,13 @@ $(document).ready(()=>{
         <p class="message-text">${data.message}</p>
       </div>
     `);
+  })
+
+  //Get online users when page loads
+  socket.on('get online users', (onlineUsers) => {
+    for(username in onlineUsers){
+      $('.users-online').append(`<div class="user-online">${username}</div>`);
+    }
   })
 
 })

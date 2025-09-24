@@ -5,8 +5,12 @@ const server = require('http').Server(app);
 
 //Socket.io
 const io = require('socket.io')(server);
+//We'll store our online users here, will act as a dict to 
+//store the socket id and username
+let onlineUsers = {};
+
 io.on("connection", (socket) => {
-    require('./sockets/chat.js')(io, socket);
+    require('./sockets/chat.js')(io, socket, onlineUsers);
   })
 
 const exphbs  = require('express-handlebars');
