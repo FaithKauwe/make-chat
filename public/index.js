@@ -35,8 +35,10 @@ $(document).ready(()=>{
   //socket listeners
   socket.on('new user', (username) => {
     console.log(`${username} has joined the chat`);
-    // Add the new user to the online users div
-    $('.users-online').append(`<div class="user-online">${username}</div>`);
+    // Only add the user if it's not the current user (avoid duplicates)
+    if(username !== currentUser) {
+      $('.users-online').append(`<div class="user-online">${username}</div>`);
+    }
   })
 
   //Output the new message
