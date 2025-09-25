@@ -35,6 +35,15 @@ module.exports = (io, socket, onlineUsers, channels) => {
     //Emit only to sockets that are in that channel room.
     io.to(data.channel).emit('new message', data);
   })
+
+  //Have the socket join the room of the channel
+  socket.on('user changed channel', (newChannel) => {
+    socket.join(newChannel);
+    socket.emit('user changed channel', {
+      channel : newChannel,
+      messages : channels[newChannel]
+    });
+  });
   // This fires when a user closes out of the application
 // socket.on("disconnect") is a special listener that fires when a user exits out of the application.
 socket.on('disconnect', () => {
