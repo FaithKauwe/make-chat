@@ -30,9 +30,10 @@ module.exports = (io, socket, onlineUsers, channels) => {
 
   //Listen for new messages
   socket.on('new message', (data) => {
-    // Send that data back to ALL clients
-    console.log(`🎤 ${data.sender}: ${data.message} 🎤`)
-    io.emit('new message', data);
+    //Save the new message to the channel.
+    channels[data.channel].push({sender : data.sender, message : data.message});
+    //Emit only to sockets that are in that channel room.
+    io.to(data.channel).emit('new message', data);
   })
   // This fires when a user closes out of the application
 // socket.on("disconnect") is a special listener that fires when a user exits out of the application.
