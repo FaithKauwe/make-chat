@@ -8,9 +8,11 @@ const io = require('socket.io')(server);
 //We'll store our online users here, will act as a dict to 
 //store the socket id and username
 let onlineUsers = {};
+//Save the channels in this object.
+let channels = {"General" : []};
 
 io.on("connection", (socket) => {
-    require('./sockets/chat.js')(io, socket, onlineUsers);
+    require('./sockets/chat.js')(io, socket, onlineUsers, channels);
   })
 
 const exphbs  = require('express-handlebars');
