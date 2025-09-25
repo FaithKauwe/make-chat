@@ -56,5 +56,12 @@ $(document).ready(()=>{
       $('.users-online').append(`<div class="user-online">${username}</div>`);
     }
   })
+  //Refresh the online user list
+    socket.on('user has left', (onlineUsers) => {
+        $('.users-online').empty();
+        for(username in onlineUsers){
+        $('.users-online').append(`<p>${username}</p>`);
+        }
+    });
 
 })
